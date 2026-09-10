@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semáforo da Informação</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#1E63E6;--red:#EF4444;--yellow:#FBBF24;--green:#22C55E;--dark:#0F2C5C}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Fredoka','Nunito',sans-serif}
+body{background:linear-gradient(#87CEEB 0%, #B3E5FC 60%, #A5D6A7 60%);min-height:100vh;overflow-x:hidden}
+.sky{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1}
+.cloud{position:absolute;background:white;border-radius:50px;opacity:.9}
+.bush{position:fixed;bottom:80px;width:160px;height:90px;background:#4CAF50;border-radius:80px 80px 20px 20px;z-index:-1}
+.screen{display:none;min-height:100vh;padding:18px 16px 100px;flex-direction:column;align-items:center;justify-content:flex-start;animation:fade.4s}
+.screen.active{display:flex}
+.title{font-size:38px;line-height:.95;font-weight:800;color:var(--blue);text-align:center;-webkit-text-stroke:3px white;paint-order:stroke fill;text-shadow:4px 4px 0 #FFEB9A,0 0 0 white;letter-spacing:-1px;margin:10px 0 14px}
+.card{background:white;border-radius:28px;padding:22px 18px;box-shadow:0 10px 0 rgba(0,0,0,.08),0 20px 30px rgba(0,0,0,.1);width:100%;max-width:420px;border:3px solid #E8F5E9}
+.btn{border:none;border-radius:999px;padding:16px 24px;font-size:18px;font-weight:800;cursor:pointer;transition:.15s;box-shadow:0 6px 0 rgba(0,0,0,.15);width:100%;max-width:340px;display:flex;align-items:center;justify-content:center;gap:10px}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.btn-green{background:var(--green);color:white}
+.btn-red{background:var(--red);color:white}
+.btn-yellow{background:var(--yellow);color:var(--dark)}
+.semaforo{width:110px;filter:drop-shadow(0 8px 10px rgba(0,0,0,.2))}
+.question-text{color:#222;font-size:15px;line-height:1.35;text-align:center;margin-bottom:14px}
+.decision{color:var(--dark);font-size:22px;font-weight:800;text-align:center;margin:14px 0}
+.timer{color:var(--dark);font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;margin:12px 0;font-size:14px}
+.input{width:100%;background:#E5E7EB;border:2px solid transparent;border-radius:14px;padding:12px 14px;font-size:14px;outline:none}
+.input:focus{border-color:var(--blue)}
+.stars{position:fixed;top:12px;right:12px;background:#FFF59D;border:3px solid #F9A825;border-radius:18px;padding:6px 14px;font-weight:800;color:var(--dark);z-index:10;box-shadow:0 4px 0 #F9A825}
+.player-tag{background:var(--blue);color:white;padding:6px 14px;border-radius:20px;font-weight:800;font-size:14px;margin-bottom:8px}
+.feedback-badge{padding:12px 18px;border-radius:14px;font-weight:800;text-align:center;color:white;font-size:18px;width:100%}
+.tip{background:#FEF3C7;border:2px dashed #F59E0B;border-radius:16px;padding:14px;margin-top:14px}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.player-card{background:white;border-radius:16px;padding:12px;border:2px solid #E5E7EB;text-align:center}
+</style>
+</head>
+<body>
+<div class="sky">
+<div class="cloud" style="top:8%;left:10%;width:90px;height:32px"></div>
+<div class="cloud" style="top:12%;right:12%;width:110px;height:38px"></div>
+</div>
+<div id="stars" class="stars">⭐ <span id="score">0</span> pts</div>
+
+<div id="s1" class="screen active">
+<h1 class="title">SEMÁFORO DA<br>INFORMAÇÃO</h1>
+<div style="margin:20px 0">
+<svg class="semaforo" viewBox="0 0 100 180"><rect x="15" y="10" width="70" height="150" rx="18" fill="#2D2D2D"/><circle cx="50" cy="40" r="22" fill="#4ADE80"/><circle cx="50" cy="90" r="22" fill="#FDE68A"/><circle cx="50" cy="140" r="22" fill="#F87171"/><circle cx="44" cy="36" r="4" fill="white"/><path d="M42 48 Q50 54 58 48" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="38" cy="38" r="3" fill="black"/><circle cx="62" cy="38" r="3" fill="black"/></svg>
+</div>
+<div class="card" style="background:#FFFBEB">
+<p style="color:var(--blue);font-weight:700;text-align:center;font-size:14px;line-height:1.4">Conscientizar os jogadores sobre o uso excessivo da Inteligência Artificial como resposta pronta, estimulando o resgate do raciocínio crítico, da criatividade e da autonomia intelectual, provando que a mente humana é insubstituível.</p>
+</div>
+<button class="btn btn-green" style="margin-top:22px" onclick="go('s2')">INICIAR</button>
+</div>
+
+<div id="s2" class="screen">
+<h1 class="title" style="font-size:30px">SEMÁFORO DA<br>INFORMAÇÃO</h1>
+<div class="card">
+<p style="text-align:center;color:var(--dark);font-weight:700;font-size:13px;margin-bottom:12px">Você está em um futuro onde todo mundo terceirizou o cérebro para a IA. Seu objetivo é provar que você ainda sabe pensar sozinho.</p>
+<hr style="margin:10px 0;border:none;border-top:2px solid #E5E7EB">
+<h3 style="text-align:center;color:var(--blue);margin-bottom:10px">REGRAS DO JOGO</h3>
+<ol style="font-size:13px;color:#1F2937;padding-left:18px;line-height:1.4;display:flex;flex-direction:column;gap:8px">
+<li><b>REGRA DE OURO</b> - Proibido pesquisar;</li>
+<li>Você tem <b>30 segundos</b> para pensar e responder</li>
+<li>A cada resposta justifique/explique o porquê da resposta;</li>
+<li>Uma resposta errada mas bem argumentada vale <b>5 pontos</b>. Uma resposta certa copiada vale 0;</li>
+</ol>
+</div>
+<button class="btn btn-green" style="margin-top:18px" onclick="go('sMode')">AVANÇAR</button>
+</div>
+
+<div id="sMode" class="screen">
+<h1 class="title" style="font-size:28px">COMO VAI JOGAR?</h1>
+<div class="card" style="display:flex;flex-direction:column;gap:12px">
+<button class="btn btn-green" onclick="setMode('solo')">👤 SOZINHO</button>
+<button class="btn btn-yellow" onclick="setMode('grupo')">👥 EM EQUIPE (2 a 6)</button>
+<div id="groupSetup" style="display:none;flex-direction:column;gap:10px">
+<label style="font-weight:800">Quantas pessoas?</label>
+<select id="numPlayers" class="input"><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
+<div id="names"></div>
+<button class="btn" style="background:var(--blue);color:white" onclick="startGroup()">COMEÇAR PARTIDA</button>
+</div>
+</div>
+</div>
+
+<div id="sQ" class="screen">
+<h1 class="title" style="font-size:22px" id="qTitle">PERGUNTA 1</h1>
+<div id="currentPlayer" class="player-tag" style="display:none"></div>
+<div class="card" id="qCard">
+<p class="question-text" id="qText"></p>
+<p class="decision">Qual é a sua decisão?</p>
+<div style="display:flex;flex-direction:column;gap:10px">
+<button class="btn btn-red" onclick="answer('FAKE')">✖ FAKE</button>
+<button class="btn btn-yellow" onclick="answer('PRECISA VERIFICAR')">🔍 PRECISA VERIFICAR</button>
+<button class="btn btn-green" onclick="answer('CONFIÁVEL')">✔ CONFIÁVEL</button>
+</div>
+<div class="timer">⏱ <span id="time">30</span>s</div>
+<label style="font-weight:800;font-size:14px;margin-top:6px">Sua justificativa:</label>
+<input id="just" class="input" placeholder="[ explique seu raciocínio aqui ]">
+<button class="btn btn-green" style="margin-top:12px" onclick="confirm()">RESPONDER</button>
+</div>
+</div>
+
+<div id="sF" class="screen">
+<h1 class="title" style="font-size:22px">FEEDBACK</h1>
+<div class="card">
+<div id="fbBadge" class="feedback-badge"></div>
+<p id="fbText" style="margin-top:14px;color:var(--dark);font-size:14px;line-height:1.4;text-align:center"></p>
+<div class="tip"><b>💡 DICA DO SEMÁFORO:</b><p id="fbTip" style="font-size:13px;margin-top:4px"></p></div>
+<div id="fbPoints" style="text-align:center;margin-top:12px;font-weight:800;color:var(--green)"></div>
+</div>
+<button class="btn btn-green" style="margin-top:16px" onclick="nextQ()">PRÓXIMA PERGUNTA →</button>
+</div>
+
+<div id="sEnd" class="screen">
+<h1 class="title">FIM DE JOGO!</h1>
+<div class="card" id="finalCard"></div>
+<button class="btn btn-green" style="margin-top:16px" onclick="restart()">JOGAR NOVAMENTE (ORDEM SORTEADA)</button>
+</div>
+
+<script>
+const perguntas=[
+{q:"Se uma notícia falsa contém 90% de informações verdadeiras e apenas uma informação falsa, ela deixa de ser fake?",a:"PRECISA VERIFICAR",exp:"Uma informação falsa, mesmo pequena, contamina toda a mensagem. Se 90% é verdade mas 10% é mentira, a conclusão será falsa. Por isso ainda é desinformação! Precisa verificar.",tip:"No amarelo, o cérebro não terceiriza! Pare, verifique a fonte e só depois compartilhe!"},
+{q:"Uma foto mostra uma multidão em frente a um hospital. A legenda diz que centenas de pessoas estão protestando. Ao pesquisar, você descobre que elas estavam esperando atendimento. A foto era falsa?",a:"FAKE",exp:"Não necessariamente. A foto pode ser verdadeira, mas a interpretação era falsa. Uma imagem real usada com legenda enganosa é desinformação fora de contexto!",tip:"Sempre verifique a legenda! Uma foto verdadeira pode contar uma história mentirosa."},
+{q:"Uma notícia verdadeira pode ser usada para criar uma conclusão falsa quando informações importantes são retiradas do contexto.",a:"CONFIÁVEL",exp:"Correto! Uma notícia pode trazer fatos verdadeiros, mas ao retirar informações importantes do contexto, induzir o leitor a chegar a uma conclusão falsa.",tip:"Contexto é tudo!"},
+{q:"Uma notícia que ninguém consegue confirmar imediatamente deve ser tratada como ‘precisa verificar’, e não automaticamente como fake.",a:"CONFIÁVEL",exp:"O fato de uma informação ainda não poder ser confirmada não significa que ela seja falsa. Ela deve ser classificada como precisa verificar até ter fontes confiáveis.",tip:"Na dúvida, amarelo!"},
+{q:"Uma pessoa famosa publica uma informação em seu próprio perfil. Você ainda precisa verificar?",a:"PRECISA VERIFICAR",exp:"Porque ser famoso não significa que tudo o que a pessoa publica seja verdadeiro.",tip:"Autoridade não é fonte."},
+{q:"Se uma imagem foi encontrada no Google, significa que ela representa exatamente o acontecimento descrito na postagem.",a:"FAKE",exp:"Imagem pode ser verdadeira, mas ser antiga, de outro lugar ou de outro acontecimento.",tip:"Faça busca reversa de imagem!"},
+{q:"O objetivo de identificar uma fake news é apenas descobrir quem mentiu.",a:"FAKE",exp:"O objetivo principal é verificar a informação, entender o contexto e evitar a propagação da desinformação.",tip:"Foque no fato, não na pessoa."},
+{q:"Um texto escrito de maneira profissional e sem erros de português não pode ser uma notícia falsa.",a:"FAKE",exp:"Fake news bem escrita existe! Profissionalismo no texto não garante verdade.",tip:"Golpistas também sabem escrever bem."},
+{q:"Uma notícia pode ser parcialmente verdadeira e, ainda assim, transmitir uma informação enganosa.",a:"CONFIÁVEL",exp:"Certo! Meias-verdades são as fake news mais perigosas.",tip:"Cuidado com o 90% verdade!"},
+{q:"Duas pessoas podem olhar para a mesma informação e chegar a conclusões diferentes, mesmo que os fatos sejam os mesmos.",a:"CONFIÁVEL",exp:"Certo! Interpretação e viés influenciam.",tip:"Pense com autonomia!"},
+{q:"Se uma notícia apresenta documentos como prova, podemos parar de verificar.",a:"FAKE",exp:"Documentos também podem ser falsificados, manipulados ou interpretados fora do contexto.",tip:"Documento também se verifica."},
+{q:"Se uma informação confirma exatamente aquilo que você já acreditava, você deve ter ainda mais cuidado antes de compartilhá-la.",a:"CONFIÁVEL",exp:"Certo! É o viés de confirmação.",tip:"Cuidado com a bolha!"},
+{q:"Uma notícia aparece em 10 páginas diferentes. Você verifica e descobre que todas copiaram a informação de uma única página. Isso significa que existem 10 fontes confirmando a notícia?",a:"FAKE",exp:"Aparentemente são 10 páginas, mas existe apenas uma fonte original.",tip:"Rastreie a fonte original!"},
+{q:"Um vídeo mostra uma pessoa famosa dizendo algo polêmico. O rosto e a voz parecem reais. Isso é suficiente para confirmar que ela realmente falou aquilo?",a:"PRECISA VERIFICAR",exp:"Hoje existe deepfake! Precisa verificar em fontes confiáveis.",tip:"Vídeo também se checa!"},
+{q:"Uma notícia não foi desmentida por ninguém. Podemos dizer que ela é verdadeira?",a:"FAKE",exp:"Ausência de desmentido não é prova de verdade.",tip:"Verdade precisa de prova."},
+{q:"Você encontra uma notícia verdadeira em um site. Depois percebe que o título foi alterado em uma postagem compartilhada nas redes sociais. Qual informação deve ser analisada: apenas o título ou também o conteúdo original?",a:"CONFIÁVEL",exp:"É preciso analisar o conteúdo e o contexto, não só o título sensacionalista.",tip:"Leia além do título!"},
+{q:"Um amigo manda uma mensagem dizendo: 'É verdade, meu primo trabalha no governo e confirmou!'. Isso é uma prova suficiente?",a:"PRECISA VERIFICAR",exp:"'Meu primo confirmou' não é fonte. É boato.",tip:"Fonte precisa ter comprovação."},
+{q:"Se uma informação parece absurda, podemos classificá-la como fake sem pesquisar.",a:"FAKE",exp:"Mesmo absurdos precisam ser checados.",tip:"Cheque mesmo o absurdo."},
+{q:"Uma notícia publicada por um jornal conhecido nunca precisa ser verificada.",a:"FAKE",exp:"Até jornais grandes erram.",tip:"Nenhuma mídia é infalível."},
+{q:"Se uma postagem tem milhões de visualizações, isso significa que milhões de pessoas confirmaram que ela é verdadeira.",a:"FAKE",exp:"Visualização não é validação. Viral não é verdadeiro.",tip:"Popular ≠ verdadeiro."}
+];
+let order=[...Array(perguntas.length).keys()];
+let idx=0,score=0,timerInt,timeLeft=30,mode='solo',players=[],currentP=0,lastAnswer=null;
+
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function setMode(m){
+ mode=m;
+ if(m==='solo'){players=[{name:'Você',pts:0,acertos:0,erros:0}];startGame();}
+ else {document.getElementById('groupSetup').style.display='flex';genNames();}
+}
+function genNames(){
+ const n=parseInt(document.getElementById('numPlayers').value);
+ const cont=document.getElementById('names');cont.innerHTML='';
+ for(let i=0;i<n;i++){cont.innerHTML+=`<input class="input" style="margin-top:6px" id="pname${i}" placeholder="Nome do jogador ${i+1}">`}
+}
+function startGroup(){
+ const n=parseInt(document.getElementById('numPlayers').value);
+ players=[];
+ for(let i=0;i<n;i++){const v=document.getElementById('pname'+i).value||`Jogador ${i+1}`;players.push({name:v,pts:0,acertos:0,erros:0})}
+ currentP=0;startGame();
+}
+function startGame(){
+ order=shuffle([...order]); idx=0; score=0; players.forEach(p=>{p.pts=0;p.acertos=0;p.erros=0});
+ document.getElementById('score').innerText='0';
+ showQuestion(); go('sQ');
+}
+function showQuestion(){
+ if(idx>=order.length){endGame();return}
+ const q=perguntas[order[idx]];
+ document.getElementById('qTitle').innerText=`PERGUNTA ${idx+1} / ${order.length}`;
+ if(mode==='grupo'||players.length>1){document.getElementById('currentPlayer').style.display='block';document.getElementById('currentPlayer').innerText='Vez de: '+players[currentP].name}
+ document.getElementById('qText').innerText=q.q;
+ document.getElementById('just').value=''; lastAnswer=null;
+ timeLeft=30; document.getElementById('time').innerText=timeLeft;
+ clearInterval(timerInt);
+ timerInt=setInterval(()=>{timeLeft--;document.getElementById('time').innerText=timeLeft;if(timeLeft<=0){clearInterval(timerInt);skip()}},1000);
+}
+function answer(t){lastAnswer=t; document.querySelectorAll('#qCard.btn').forEach(b=>b.style.outline=''); event.currentTarget.style.outline='4px solid #0F2C5C'}
+function confirm(){if(!lastAnswer){alert('Escolha uma opção!');return} finishAnswer(lastAnswer);}
+function skip(){
+ alert('⏱ Tempo acabou! Perdeu a chance de pontuar.');
+ players[currentP].erros++; if(players.length>1) currentP=(currentP+1)%players.length;
+ idx++; showQuestion();
+}
+function finishAnswer(ans){
+ clearInterval(timerInt);
+ const q=perguntas[order[idx]];
+ const just=document.getElementById('just').value.trim();
+ const justified=just.length>10;
+ let pts=0; const correct=ans===q.a;
+ if(correct){pts=justified?7:2; players[currentP].pts+=pts; players[currentP].acertos++; if(mode==='solo') score+=pts;}
+ else {if(justified){pts=5; players[currentP].pts+=pts; if(mode==='solo') score+=pts;} players[currentP].erros++;}
+ document.getElementById('score').innerText=mode==='solo'?score:players[currentP].pts;
+ const badge=document.getElementById('fbBadge'); badge.innerText='RESPOSTA: '+q.a;
+ badge.style.background=q.a==='FAKE'?'var(--red)':q.a.includes('PRECISA')?'var(--yellow)':'var(--green)';
+ badge.style.color=q.a.includes('PRECISA')?'var(--dark)':'white';
+ document.getElementById('fbText').innerText=q.exp;
+ document.getElementById('fbTip').innerText=q.tip;
+ document.getElementById('fbPoints').innerText=justified?`⭐ +${pts} pontos • Justificada!`:`+${pts} pontos`;
+ go('sF');
+}
+function nextQ(){idx++; if(players.length>1) currentP=(currentP+1)%players.length; showQuestion(); go('sQ');}
+function endGame(){
+ go('sEnd');
+ const sorted=[...players].sort((a,b)=>b.pts-a.pts);
+ let html=`<h3 style="text-align:center;color:var(--blue)">🏆 RANKING FINAL</h3><div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">`;
+ sorted.forEach((p,i)=>{
+  const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+  html+=`<div class="player-card" style="${i===0?'border-color:var(--yellow);background:#FFFEF0':''}"><b>${medal} ${p.name}</b><br>✅ ${p.acertos} | ❌ ${p.erros}<br><b style="color:var(--green);font-size:18px">${p.pts} pts</b></div>`
+ });
+ html+=`</div>`;
+ if(mode==='solo') html=`<p style="text-align:center">Você fez <b style="color:var(--green);font-size:22px">${players[0].pts} pontos</b><br>${players[0].acertos} acertos e ${players[0].erros} erros</p>`+html;
+ document.getElementById('finalCard').innerHTML=html;
+}
+function restart(){startGame()}
+document.getElementById('numPlayers').addEventListener('change',genNames);
+</script>
+</body>
+</html>
